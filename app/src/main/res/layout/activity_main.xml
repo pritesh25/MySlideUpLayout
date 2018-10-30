@@ -11,7 +11,7 @@
     sothree:umanoParallaxOffset="100dp"
     sothree:umanoDragView="@+id/dragView"
     sothree:umanoOverlay="true"
-    sothree:umanoScrollableView="@+id/list">
+    sothree:umanoScrollableView="@+id/recyclerview">
 
     <!-- MAIN CONTENT -->
     <FrameLayout
@@ -31,13 +31,14 @@
         <TextView
             android:id="@+id/main"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Main Content"
             android:clickable="true"
             android:focusable="false"
             android:focusableInTouchMode="true"
             android:textSize="16sp" />
+
     </FrameLayout>
 
     <!-- SLIDING LAYOUT -->
@@ -57,6 +58,7 @@
 
             <TextView
                 android:id="@+id/name"
+                android:text="@string/app_name"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -66,6 +68,7 @@
 
             <Button
                 android:id="@+id/follow"
+                android:text="@string/app_name"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:textSize="14sp"
@@ -75,12 +78,28 @@
 
         </LinearLayout>
 
-        <ListView
-            android:id="@+id/list"
+        <!--<ListView-->
+            <!--android:id="@+id/list"-->
+            <!--android:visibility="gone"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="0dp"-->
+            <!--android:layout_weight="1">-->
+        <!--</ListView>-->
+
+        <TextView
+            android:text="here is sample textview"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1">
-        </ListView>
+            android:layout_height="wrap_content" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="here is sample textview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 </com.example.pritesh.myslideup.library.SlidingUpPanelLayout>

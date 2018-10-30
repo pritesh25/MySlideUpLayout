@@ -1,12 +1,17 @@
 package com.example.pritesh.myslideup;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +24,7 @@ import android.widget.Toast;
 
 import com.example.pritesh.myslideup.library.SlidingUpPanelLayout;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -28,6 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
     private SlidingUpPanelLayout mLayout;
 
+    private RecyclerView recyclerview;
+    private List<DataHolder> your_array_list = new ArrayList<>();
+    private MyAdapter myAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,77 +45,104 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        ListView lv = (ListView) findViewById(R.id.list);
+//        ListView lv = (ListView) findViewById(R.id.list);
+//
+//        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                Toast.makeText(MainActivity.this, "onItemClick", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//        your_array_list = Arrays.asList(
+//                "This",
+//                "Is",
+//                "An",
+//                "Example",
+//                "ListView",
+//                "That",
+//                "You",
+//                "Can",
+//                "Scroll",
+//                ".",
+//                "It",
+//                "Shows",
+//                "How",
+//                "Any",
+//                "Scrollable",
+//                "View",
+//                "Can",
+//                "Be",
+//                "Included",
+//                "As",
+//                "A",
+//                "Child",
+//                "Of",
+//                "SlidingUpPanelLayout"
+//        );
+//
+//        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,your_array_list );
+//        lv.setAdapter(arrayAdapter);
+//
+//        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
+//        mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
+//            @Override
+//            public void onPanelSlide(View panel, float slideOffset) {
+//                Log.d(TAG, "onPanelSlide, offset " + slideOffset);
+//            }
+//
+//            @Override
+//            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
+//                Log.d(TAG, "onPanelStateChanged " + newState);
+//            }
+//        });
+//        mLayout.setFadeOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
+//            }
+//        });
+//
+//        TextView t = (TextView) findViewById(R.id.name);
+//        t.setText(Html.fromHtml(getString(R.string.hello)));
+//        Button f = (Button) findViewById(R.id.follow);
+//        f.setText(Html.fromHtml(getString(R.string.follow)));
+//        f.setMovementMethod(LinkMovementMethod.getInstance());
+//        f.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent i = new Intent(Intent.ACTION_VIEW);
+//                i.setData(Uri.parse("http://www.twitter.com/umanoapp"));
+//                startActivity(i);
+//            }
+//        });
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "onItemClick", Toast.LENGTH_SHORT).show();
-            }
-        });
+        setupRecyclerview();
 
-        List<String> your_array_list = Arrays.asList(
-                "This",
-                "Is",
-                "An",
-                "Example",
-                "ListView",
-                "That",
-                "You",
-                "Can",
-                "Scroll",
-                ".",
-                "It",
-                "Shows",
-                "How",
-                "Any",
-                "Scrollable",
-                "View",
-                "Can",
-                "Be",
-                "Included",
-                "As",
-                "A",
-                "Child",
-                "Of",
-                "SlidingUpPanelLayout"
-        );
+    }
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,your_array_list );
-        lv.setAdapter(arrayAdapter);
+    private void setupRecyclerview() {
 
-        mLayout = (SlidingUpPanelLayout) findViewById(R.id.sliding_layout);
-        mLayout.addPanelSlideListener(new SlidingUpPanelLayout.PanelSlideListener() {
-            @Override
-            public void onPanelSlide(View panel, float slideOffset) {
-                Log.d(TAG, "onPanelSlide, offset " + slideOffset);
-            }
+        for(int i=0;i<10;i++)
+        {
+            your_array_list.add(i,new DataHolder(""+i));
+        }
 
-            @Override
-            public void onPanelStateChanged(View panel, SlidingUpPanelLayout.PanelState previousState, SlidingUpPanelLayout.PanelState newState) {
-                Log.d(TAG, "onPanelStateChanged " + newState);
-            }
-        });
-        mLayout.setFadeOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mLayout.setPanelState(SlidingUpPanelLayout.PanelState.COLLAPSED);
-            }
-        });
+        recyclerview = findViewById(R.id.recyclerview);
+        recyclerview.setHasFixedSize(true);
+        recyclerview.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
 
-        TextView t = (TextView) findViewById(R.id.name);
-        t.setText(Html.fromHtml(getString(R.string.hello)));
-        Button f = (Button) findViewById(R.id.follow);
-        f.setText(Html.fromHtml(getString(R.string.follow)));
-        f.setMovementMethod(LinkMovementMethod.getInstance());
-        f.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_VIEW);
-                i.setData(Uri.parse("http://www.twitter.com/umanoapp"));
-                startActivity(i);
-            }
-        });
+        recyclerview.addItemDecoration(new GridSpacingItemDecoration(3, dpToPx(4), true));
+        recyclerview.setItemAnimator(new DefaultItemAnimator());
+
+        myAdapter = new MyAdapter(your_array_list,getApplicationContext());
+        recyclerview.setAdapter(myAdapter);
+
+    }
+
+    private int dpToPx(int dp) {
+        Resources r = getResources();
+        return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
 
     @Override
